@@ -1,0 +1,324 @@
+﻿<Window x:Class="SoundConverter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SoundConverter"
+        xmlns:vm="clr-namespace:SoundConverter.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        xmlns:converters="clr-namespace:SoundConverter.Converters"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <WindowChrome.WindowChrome >
+        <WindowChrome GlassFrameThickness="0 32 0 0" NonClientFrameEdges="Left,Bottom,Right" UseAeroCaptionButtons="True"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Template>
+        <ControlTemplate TargetType="Window">
+            <Border Padding="0 26 0 0">
+                <Grid x:Name="RootGrid" >
+
+                    <Border Background="#1F2933" 
+                    VerticalAlignment="Top" Height="26" Margin="0,-26,144,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Convert" FontSize="20" Background="#1F2933"
+                                       Foreground="#E0E0E0" FontWeight="Bold" VerticalAlignment="Center" Height="30" TextAlignment="Center"
+                                       Width="156" Margin="0,0,0,0">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect Color="#E0E0E0" Direction="0" ShadowDepth="0" BlurRadius="14"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
+
+                            
+                            
+                        </StackPanel>
+                    </Border>
+
+                    <ContentPresenter />
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="WindowState" Value="Maximized">
+                    <Setter TargetName="RootGrid" Property="Margin" Value="6" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Template>
+
+    <Window.Resources>
+        <converters:MultiBoolToBoolConverter x:Key="MultiBoolToBoolConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter"/>
+    </Window.Resources>
+
+    <Grid Background="#303C48">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="373*"/>
+            <RowDefinition Height="51"/>
+        </Grid.RowDefinitions>
+
+        <ToggleButton x:Name="ModelToggleButton"
+              Content="Модель PND v1.0"
+              Width="150"
+              Height="30"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Left"
+              Margin="10,5,0,0"
+              IsChecked="{Binding IsModelSelected, Mode=TwoWay}"
+              IsEnabled="{Binding IsModelEnable}">
+            <ToggleButton.Style>
+                <Style TargetType="{x:Type ToggleButton}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Border x:Name="Border"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="MouseStates">
+                                            <VisualState x:Name="MouseOver">
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="Border"
+                                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                            To="LightBlue"
+                                                            Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Normal">
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="Border"
+                                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                            To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Background.(SolidColorBrush.Color)}"
+                                                            Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background" Value="LightGreen" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ToggleButton.Style>
+        </ToggleButton>
+
+        <ToggleButton x:Name="ModelToggleButton2" IsEnabled="False" Background="Gray"
+       Content="Модель PND v2.0"
+       Width="150"
+       Height="30"
+       VerticalAlignment="Top"
+       HorizontalAlignment="Left"
+       Margin="170,5,0,0"
+       IsChecked="{Binding IsModelSelected2, Mode=TwoWay}">
+            <ToggleButton.Style>
+                <Style TargetType="{x:Type ToggleButton}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Border x:Name="Border"
+                         BorderBrush="{TemplateBinding BorderBrush}"
+                         Background="{TemplateBinding Background}">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="MouseStates">
+                                            <VisualState x:Name="MouseOver">
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="Border"
+                                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                     To="LightBlue"
+                                                     Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Normal">
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="Border"
+                                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                     To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Background.(SolidColorBrush.Color)}"
+                                                     Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background" Value="LightGreen" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ToggleButton.Style>
+        </ToggleButton>
+
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Width="300" Margin="0,5,10,0" Height="30">
+            <Button 
+                Content="Открыть папку с текстовыми файлами" Height="30" Background="#8FBC8F" Foreground="#2F4F4F" Command="{Binding OpenOutFilePatchCommand}"></Button>
+        </StackPanel>
+       
+
+        <Border x:Name="DropZone" Padding="40" CornerRadius="20"
+        BorderBrush="{Binding BorderBrushColor}" BorderThickness="3"
+        Margin="145,63,145,25" AllowDrop="{Binding IsDropAllowed}" RenderTransformOrigin="0.5,0.5"
+        Drop="DropZone_OnDrop">
+            <Border.RenderTransform>
+                <ScaleTransform ScaleX="1" ScaleY="1" />
+            </Border.RenderTransform>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+                <Canvas Width="117" Height="150">
+                    <!-- Иконка файла -->
+                    <Rectangle Width="120" Height="150" Fill="#D3D3D3" Stroke="#A9A9A9" StrokeThickness="3" RadiusX="10" RadiusY="10" />
+                    <Polyline Points="90,0 120,30 90,30" Fill="#D3D3D3" Stroke="#A9A9A9" StrokeThickness="3" HorizontalAlignment="Left" VerticalAlignment="Center" Width="117" />
+                    <Line X1="90" Y1="0" X2="90" Y2="30" Stroke="#A9A9A9" StrokeThickness="3" />
+
+                    <!-- Иконка блокировки (круг с перечёркнутой полосой) по центру файла -->
+                    <Canvas x:Name="BlockIcon"
+                        Visibility="{Binding IsDropAllowed, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"
+                        Width="60" Height="60"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Canvas.Left="28"
+                        Canvas.Top="45">
+                        <Ellipse Width="60" Height="60" Stroke="Black" StrokeThickness="3" />
+                        <Line X1="15" Y1="45" X2="45" Y2="15" Stroke="Black" StrokeThickness="3" />
+                    </Canvas>
+
+
+                </Canvas>
+
+                <TextBlock Text="{Binding DroppedFileName}" FontSize="20" Foreground="#C0C0C0" Margin="20,20,20,0" HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <!-- Триггеры для анимации -->
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Drop">
+                    <i:InvokeCommandAction Command="{Binding HandleFileDropCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <Border.Triggers>
+                <EventTrigger RoutedEvent="UIElement.DragEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FFD700" Duration="0:0:0.3" />
+                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.05" Duration="0:0:0.3" />
+                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.05" Duration="0:0:0.3" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+
+                <EventTrigger RoutedEvent="UIElement.DragLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#C0C0C0" Duration="0:0:0.3" />
+                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.3" />
+                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.3" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+
+                <EventTrigger RoutedEvent="UIElement.Drop">
+                    <RemoveStoryboard BeginStoryboardName="DropAnimation" />
+                    <BeginStoryboard Name="DropAnimation">
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#32CD32" Duration="0:0:0.3" />
+                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.3" />
+                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.3" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Border.Triggers>
+        </Border>
+
+
+
+
+
+
+        <!-- Футер -->
+        <Border Background="#1F2933" Height="50"  Grid.Row="1">
+            <!-- Здесь можно добавить содержимое футера в будущем -->
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" >
+
+                <Button Content="Получить текст" Margin="0,0,10,5" Foreground="#E0E0E0" Background="#FF455A64" BorderBrush="White" Command="{Binding HandleGetTextCommand}" >
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource MultiBoolToBoolConverter}">
+                            <Binding Path="IsModelSelected" />
+                            <Binding Path="IsAudioFile" />
+                            <Binding Path="IsButtonEnabled" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+
+                <Button  Content="Отмена" Margin="0,0,10,5" Foreground="#E0E0E0" Background="#FF455A64" BorderBrush="White"
+                         IsEnabled="False"/>
+
+            </StackPanel>
+
+        </Border>
+
+        <!-- Анимация вращения круговой загрузки -->
+        <Canvas Grid.Row="1"  Width="50" Height="50" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" >
+
+            <Grid Visibility="{Binding LoadVisible}">
+                <Ellipse Stroke="#E0E0E0" StrokeThickness="4" Width="40" Height="40" />
+                <Path Stroke="#FF536E7B" StrokeThickness="4" StrokeDashArray="5,10" Width="40" Height="40" 
+Data="M 0, 20 A 20,20 0 1 1 40, 20" RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <RotateTransform x:Name="rotateTransform" Angle="0"/>
+                    </Path.RenderTransform>
+                    <Path.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard RepeatBehavior="Forever">
+                                    <DoubleAnimation Storyboard.TargetName="rotateTransform"
+                               Storyboard.TargetProperty="Angle"
+                               From="0" To="360" Duration="0:0:1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Path.Triggers>
+                </Path>
+            </Grid>
+
+
+            <Grid Visibility="{Binding CheckMarkVisible}">
+                <!-- Галочка для отображения успеха -->
+                <Path x:Name="SuccessCheckmark" Data="M 10,25 L 20,35 L 35,15"
+   Stroke="LightGreen" StrokeThickness="5" />
+
+                <!-- Текст "Успех" -->
+                <TextBlock x:Name="SuccessText" Text="Успех" Foreground="LightGreen" FontSize="18" 
+        VerticalAlignment="Center" HorizontalAlignment="Left" Margin="50,0,0,0"/>
+            </Grid>
+
+            <Grid Visibility="{Binding CrossMarkVisible}">
+                <!-- Красный крестик для отображения ошибки -->
+                <Path x:Name="ErrorCross" Data="M 10,10 L 35,35 M 35,10 L 10,35"
+          Stroke="Red" StrokeThickness="5" />
+
+                <!-- Текст "Ошибка" -->
+                <TextBlock x:Name="ErrorText" Text="Ошибка" Foreground="Red" FontSize="18" 
+               VerticalAlignment="Center" HorizontalAlignment="Left" Margin="50,0,0,0"/>
+            </Grid>
+
+
+        </Canvas>
+
+
+    </Grid>
+</Window>
